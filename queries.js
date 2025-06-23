@@ -1,4 +1,42 @@
+//CRUD операции и агрегации за school_management система
+
 // ========== CRUD ОПЕРАЦИИ ==========
+// Четене (Read)
+db.students.find();//Всичко 
+db.students.find({ class_id: 1 });// Всички ученици от клас 1
+db.students.find({ "address.city": "София" });// Ученици от София
+db.students.find({ "address.city": "София", class_id: 2 });// Ученици от софия и от клас 2
+// ========== ЧЕТЕНЕ (READ) ==========
+
+// 1. Колекция students
+db.students.find(); // Всички ученици
+db.students.find({ class_id: 1 }); // Всички ученици от клас 1
+db.students.find({ "address.city": "София" }); // Ученици от София
+db.students.find({ "address.city": "София", class_id: 2 }); // Ученици от София и от клас 2
+
+// 2. Колекция teachers
+db.teachers.find(); // Всички учители
+db.teachers.find({ years_experience: { $gt: 5 } }); // Учители с повече от 5 години опит
+db.teachers.find({ "subjects": "Математика" }); // Учители по Математика
+db.teachers.find({ "subjects": "Математика", is_active: true }); // Активни учители по Математика
+
+// 3. Колекция classes
+db.classes.find(); // Всички класове
+db.classes.find({ student_count: { $gt: 10 } }); // Класове с повече от 20 ученика
+db.classes.find({ "head_teacher_id": 1 }); // Класове с класен ръководител 1
+db.classes.find({ student_count: { $gt: 20 }, "head_teacher_id": 3 }); // Малки класове с класен ръководител 3
+
+// 4. Колекция subjects
+db.subjects.find(); // Всички предмети
+db.subjects.find({ is_elective: true }); // Избираеми предмети
+db.subjects.find({ "details.difficulty": "Висока" }); // Трудни предмети
+db.subjects.find({ is_elective: true, "details.difficulty": "Средна" }); // Средни, избираеми предмети
+
+// 5. Колекция grades
+db.grades.find(); // Всички оценки
+db.grades.find({ "assessment.grade": { $gte: 5.50 } }); // Оценки над 5.50
+db.grades.find({ subject_id: 5 }); // Оценки по Математика (subject_id 1)
+db.grades.find({ subject_id: 1, "assessment.grade": { $gte: 5.30 } }); // Добри оценки по Математика
 
 // Актуализиране на ученик
 db.students.updateOne(
